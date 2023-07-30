@@ -6,8 +6,14 @@
 
 FROM debian:bullseye-slim
 
-COPY ./docker-php-source /usr/local/bin/docker-php-source
-RUN chmod 755 /usr/local/bin/docker-php-source
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y git
+
+RUN git clone https://github.com/MihirGandhiEquate/phpfpm ./a
+
+RUN cp -R ./a/* /usr/local/bin/
+RUN chmod -R 755 ./a/* /usr/local/bin/
 
 # prevent Debian's PHP packages from being installed
 # https://github.com/docker-library/php/pull/542
@@ -180,7 +186,7 @@ RUN set -eux; \
 		--enable-fpm \
 		--with-fpm-user=www-data \
 		--with-fpm-group=www-data \
-        --enable-maintainer-zts \
+        --enable-zts \
 	; \
 	make -j "$(nproc)"; \
 	find -type f -name '*.a' -delete; \
