@@ -189,6 +189,7 @@ RUN set -eux; \
 		--with-fpm-user=www-data \
 		--with-fpm-group=www-data \
         --enable-zts \
+        --enable-soap \
 	; \
 	make -j "$(nproc)"; \
 	find -type f -name '*.a' -delete; \
