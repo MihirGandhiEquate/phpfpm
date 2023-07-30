@@ -244,6 +244,15 @@ RUN pecl install parallel
 RUN /usr/local/bin/docker-php-ext-enable sodium
 RUN /usr/local/bin/docker-php-ext-enable parallel
 
+RUN echo "memory_limit=-1
+
+          [opcache]
+          zend_extension=opcache
+          opcache.enable=1
+          opcache.enable_cli=1
+          opcache.memory_consumption=512
+          opcache.interned_strings_buffer=128" > /usr/local/etc/php/conf.d/additional_opcache.ini
+
 ENTRYPOINT ["docker-php-entrypoint"]
 WORKDIR /var/www/html
 
