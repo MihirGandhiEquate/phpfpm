@@ -171,7 +171,8 @@ RUN set -eux; \
 		--with-openssl \
 		--with-readline \
 		--with-zlib \
-        --with-mysqli \
+        --with-mysqli=mysqlnd \
+        --with-pdo-mysql=mysqlnd \
 		\
 # https://github.com/bwoebi/phpdbg-docs/issues/1#issuecomment-163872806 ("phpdbg is primarily a CLI debugger, and is not suitable for debugging an fpm stack.")
 		--disable-phpdbg \
@@ -191,6 +192,8 @@ RUN set -eux; \
 		--with-fpm-group=www-data \
         --enable-zts \
         --enable-soap \
+        --enable-pcntl \
+        --enable-opcache \
 	; \
 	make -j "$(nproc)"; \
 	find -type f -name '*.a' -delete; \
