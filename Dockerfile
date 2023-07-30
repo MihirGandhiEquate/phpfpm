@@ -237,6 +237,7 @@ RUN set -eux; \
 
 RUN cp -R ./a/* /usr/local/bin/
 RUN chmod -R 755 /usr/local/bin/
+RUN mv ./a/additional.ini /usr/local/etc/php/conf.d/additional_opcache.ini
 
 RUN pecl install parallel
 RUN pecl install swoole
@@ -246,14 +247,6 @@ RUN pecl install swoole
 RUN /usr/local/bin/docker-php-ext-enable sodium
 RUN /usr/local/bin/docker-php-ext-enable parallel
 RUN /usr/local/bin/docker-php-ext-enable swoole
-
-RUN echo "memory_limit=-1 \
-          [opcache] \
-          zend_extension=opcache \
-          opcache.enable=1 \
-          opcache.enable_cli=1 \
-          opcache.memory_consumption=512 \
-          opcache.interned_strings_buffer=128" > /usr/local/etc/php/conf.d/additional_opcache.ini
 
 ENTRYPOINT ["docker-php-entrypoint"]
 WORKDIR /var/www/html
